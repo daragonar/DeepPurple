@@ -1,5 +1,8 @@
 package purple.controller;
 
+import java.time.Instant;
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,11 @@ public class ControllerCopy {
 	@RequestMapping(method = RequestMethod.POST)
 	public String addCopy(Model model,@Valid @ModelAttribute Copy cop, BindingResult bindingResult)
 	{
+		if(null == cop.getPrintdate())
+		{
+			cop.setPrintdate(Date.from(Instant.now()));
+			System.out.println("Hola caracola " + cop.getPrintdate().toString() );
+		}
 		repoCo.save(cop);
 		model.addAttribute("copies",repoCo.findAll());
 		model.addAttribute("books",repoBo.findAll());
